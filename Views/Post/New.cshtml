@@ -1,0 +1,32 @@
+@* create view page *@
+
+@model Post
+
+<div class="container w-75 mx-auto">
+    <h1>New Post</h1>
+    <form asp-action="CreatePost" asp-controller="Post" method="post" class="shadow p-3 rounded">
+        @* section *@
+        <div class="mb-3">
+            <label asp-for="Topic"></label>
+            <input asp-for="Topic" type="text" class="form-control"/>
+            <span asp-validation-for="Topic" class="text-danger font-weight-bold"></span>
+        </div>
+        @* section *@
+        <div class="mb-3">
+            <label asp-for="Body"></label>
+            <input asp-for="Body" type="text" class="form-control"/>
+            <span asp-validation-for="Body" class="text-danger font-weight-bold"></span>
+        </div>
+        @* section *@
+        <div class="mb-3">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" type="text" class="form-control"/>
+            <span asp-validation-for="ImageUrl" class="text-danger font-weight-bold"></span>
+        </div>
+    <button class="btn btn-outline-dark">Submit</button>
+
+    </form>
+
+
+</div>
+

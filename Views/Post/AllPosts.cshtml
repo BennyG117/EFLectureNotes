@@ -1,0 +1,34 @@
+@* create view page *@
+
+@{
+    ViewData["Title"] = "All Posts Page";
+}
+
+@model List<Post>
+
+<div class="text-center">
+
+
+    <h1 class="display-4">Welcome to @ViewData["Title"]</h1>
+
+@* lower case post can be any name* *@
+@foreach (Post post in Model)
+{
+    <div class="card shadow rounded mx-auto w-75 mb-3">
+        <h4 class="card-title text-center bg-dark text-light rounded-top">
+            @* ASP Route below refers to the route parameter used from your postController *@
+            <a asp-controller="Post" asp-action="ViewPost" asp-route-postId="@post.PostId" class="text-light p-1">@post.Topic</a> 
+        </h4>
+        <div class="card-body ">
+            <img src="@post.ImageUrl" alt="images of c"  class="w-50">
+        </div>
+        <div class="card-footer shadow rounded mx-auto mb-3">
+            <p class="card-text">@post.Body</p>
+            <small class="text-muted">Submitted on: @post.CreatedAt</small>
+
+        </div>
+    </div>
+}
+
+
+</div>

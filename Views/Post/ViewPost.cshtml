@@ -1,0 +1,30 @@
+@* create viewOne page *@
+
+@{
+    ViewData["Title"] = "Read One Page";
+}
+
+
+@* ERROR ON THIS PAGE TO RENDER *@
+
+
+@model Post
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to @ViewData["Title"]</h1>
+    <h2>@Model.Topic</h2>
+    <h2>@Model.Body</h2>
+    <img src="@Model.ImageUrl" alt="topic images" height="200px">
+    <br/>
+
+    @* matching route to the controller* *@
+    <div><a asp-controller="Post" asp-action="Edit" asp-route-postId="@Model.PostId" class="btn btn-outline-warning">Edit Post</a></div>
+
+    @* match the "postId" witht he delete method in the post controller* *@
+    <div>
+        <form asp-controller="Post" asp-action="Delete" asp-route-postId="@Model.PostId">
+            <button class="btn btn-outline-danger mt-3">Delete</button>
+        </form>
+    </div>
+
+</div>
