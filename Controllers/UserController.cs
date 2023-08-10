@@ -25,7 +25,7 @@ public class UserController : Controller
         _logger = logger;
         db = context;
     }
-//  TODO: ERROR HERE ============================================
+//   ============================================
 //  using session...
 
     [HttpGet("")]
@@ -58,7 +58,7 @@ public class UserController : Controller
         //update...
         return RedirectToAction("Index", "Post");
     }
-//  ================================================
+//  Login method ================================================
     [HttpPost("/login")]
     public IActionResult Login(LoginUser userSubmission)
     {
@@ -96,9 +96,6 @@ public IActionResult Logout()
         HttpContext.Session.Clear();
         return RedirectToAction("Index");
     }
-
-
-
 
 
 

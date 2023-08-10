@@ -16,20 +16,25 @@ public class User
     [Required]        
     public string LastName { get; set; }         
     
+    //  ============================================
     [Required]
     [EmailAddress]
-    //!Adding unique
+    //Adding unique
     [UniqueEmail]
     public string Email { get; set; }        
     
+    //password  ======================== 
     [Required]
     [DataType(DataType.Password)]
     [MinLength(8, ErrorMessage = "Password must be at least 8 characters")]
     public string Password { get; set; }          
     
+    //created/updated at  ======================== 
     public DateTime CreatedAt {get;set;} = DateTime.Now;        
     public DateTime UpdatedAt {get;set;} = DateTime.Now;
     
+
+    //Password confirm  ======================== 
     // This does not need to be moved to the bottom
     // But it helps make it clear what is being mapped and what is not
     [NotMapped]
@@ -37,8 +42,15 @@ public class User
     [Compare("Password")]
     [DataType(DataType.Password)]
     public string PasswordConfirm { get; set; }
+
+
+    //! list of post objects (adding to an empty list of post objects):
+    List<Post> AuthorPosts {get; set;} = new List<Post>();
+
+
+
 }
-//!Adding Unique -- INCOMPLETE BELOW:
+// Adding Unique ======================== 
 public class UniqueEmailAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)

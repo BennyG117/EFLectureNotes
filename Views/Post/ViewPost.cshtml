@@ -16,7 +16,11 @@
     <h2>@Model.Body</h2>
     <img src="@Model.ImageUrl" alt="topic images" height="200px">
     <br/>
+    @* Can't see buttons if not in session for specific user *@
 
+
+    @if(Model.UserId == Context.Session.GetInt32("UUID"))
+    {
     @* matching route to the controller* *@
     <div><a asp-controller="Post" asp-action="Edit" asp-route-postId="@Model.PostId" class="btn btn-outline-warning">Edit Post</a></div>
 
@@ -26,5 +30,7 @@
             <button class="btn btn-outline-danger mt-3">Delete</button>
         </form>
     </div>
+    }
 
+    
 </div>

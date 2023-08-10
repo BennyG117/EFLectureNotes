@@ -2,14 +2,16 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EFLectureNotes.Models;
 using System.ComponentModel;
+//Added for Include:
+using Microsoft.EntityFrameworkCore;
 
-//!ADDED for session check
+//ADDED for session check
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EFLectureNotes.Controllers;
 
 
-//! Add SessionCheck above class controller* 
+// Add SessionCheck above class controller* 
 [SessionCheck]
 public class PostController : Controller
 {
@@ -27,17 +29,16 @@ public class PostController : Controller
 
 
 
-
     // Update AllPosts Route - update View* ============================================
     [HttpGet("/posts")]
     public IActionResult Index()
     {
-        List<Post> allPosts = db.Posts.ToList();
+        List<Post> allPosts = db.Posts.Include(p => p.Creator).ToList();
         return View("AllPosts", allPosts);
     }
 
 
-    // New View Route
+    // New View Route ============================================
     [HttpGet("posts/new")]
     public IActionResult NewPost()
     {
@@ -53,7 +54,8 @@ public class PostController : Controller
         {
             return View("New");
         }
-        //! using db table name "Posts"
+        newPost.UserId = (int) HttpContext.Session.GetInt32("UUID");
+        // using db table name "Posts"
         db.Posts.Add(newPost);
         db.SaveChanges();
         return RedirectToAction("Index");
@@ -66,6 +68,7 @@ public class PostController : Controller
     {
         //Query below:
         Post post = db.Posts.FirstOrDefault(post => post.PostId == postId);
+
         if(post == null) 
         {
             return RedirectToAction("Index");
@@ -80,7 +83,8 @@ public class PostController : Controller
     {
         //Query below:
         Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
-        if(post == null) 
+        //Stops users from editing posts that are not theirs
+        if(post == null || post.UserId != HttpContext.Session.GetInt32("UUID")) 
         {
             return RedirectToAction("Index");
         }
@@ -99,13 +103,16 @@ public class PostController : Controller
             // return View("Edit");
         }
         Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
-        if(post == null) 
+        
+        //added || statement to stop users from messing with other user's posted data
+        if(post == null || post.UserId != HttpContext.Session.GetInt32("UUID")) 
         {
             return RedirectToAction("Index");
         }
         post.Topic = editPost.Topic;
         post.Body = editPost.Body;
         post.ImageUrl = editPost.ImageUrl;
+        post.UpdatedAt = DateTime.Now;
         db.Posts.Update(post);
         db.SaveChanges();
         return RedirectToAction("ViewPost", new {postId = postId});
@@ -116,8 +123,17 @@ public class PostController : Controller
     //Delete Method ============================================
     [HttpPost("posts/{postId}/delete")]
     public IActionResult Delete(int postId)
+
+    
     {
         Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
+
+        //added to stop from deleting other's input data
+        if(post == null || post.UserId != HttpContext.Session.GetInt32("UUID")) 
+        {
+            return RedirectToAction("Index");
+        }
+
         db.Posts.Remove(post);
         db.SaveChanges();
         // ListSortDescription in the all posts for Index*

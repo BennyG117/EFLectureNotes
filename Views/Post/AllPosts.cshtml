@@ -25,6 +25,7 @@
         <div class="card-footer shadow rounded mx-auto mb-3">
             <p class="card-text">@post.Body</p>
             <small class="text-muted">Submitted on: @post.CreatedAt</small>
+            <small class="text-muted">Submitted by: @post.Creator?.FirstName @post.Creator?.LastName </small>
 
         </div>
     </div>

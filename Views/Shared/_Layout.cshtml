@@ -38,7 +38,7 @@
                         <li>
                                 <form asp-controller="User" asp-action="Logout" method="post">
                                     <button class="btn btn-outline outline-dark text-danger">
-                                        Logout
+                                        Logout (@Context.Session.GetInt32("UUID"))
                                     </button>
 
                                 </form>

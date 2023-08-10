@@ -6,36 +6,47 @@ namespace EFLectureNotes.Models;
 
 public class Post
 {
+    //*KEY*
     [Key]
-    //! PostId =========================
+    // PostId =========================
     public int PostId {get; set;}
 
 
-    //! Topic ========================= 
+    // Topic ========================= 
     [Required]
     [MinLength(2, ErrorMessage = "Must be 2 characters long")]
     [MaxLength(40, ErrorMessage = "No longer than 40 characters long")]
     public string Topic {get; set;}
     
 
-    //! Body ======================== 
+    // Body ======================== 
     [Required]
     [MinLength(2, ErrorMessage = "Must be 2 characters long")]
     public string Body {get; set;}
 
 
-    //! ImgaeUrl ======================== 
+    // ImgaeUrl ======================== 
     [Display(Name = "Enter URL here: ")]
     public string ImageUrl {get; set;}
 
 
-    //! CreatedAt ======================== 
+    // CreatedAt ======================== 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     
 
 
-    //! UpdatedAt ======================== 
+    // UpdatedAt ======================== 
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+
+
+    //! foreign key ============================
+    public int UserId {get; set;}
+
+
+    public User? Creator {get; set;}
+
+
 
 
 
